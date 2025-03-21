@@ -13,7 +13,7 @@ public class PedidoConfiguration : IEntityTypeConfiguration<Pedido>
 {
     public void Configure(EntityTypeBuilder<Pedido> builder)
     {
-        builder.ToTable("Pedidos");
+        builder.ToTable("pedidos");
         builder.Property(i => i.Status).HasDefaultValue(Status.Pendiente);
         builder.HasOne(r => r.Customer)
             .WithMany(ur => ur.Pedidos)
