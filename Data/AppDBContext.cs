@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data;
 
-public class AppDBContext : DbContext
+public class AppDBContext(DbContextOptions<AppDBContext> options) : DbContext(options)
 {
     public DbSet<Pedido> Pedidos { get; set; }
     public DbSet<EstadosHistorial> EstadosHistoriales { get; set; }

@@ -14,7 +14,7 @@ public class PedidoConfiguration : IEntityTypeConfiguration<Pedido>
     public void Configure(EntityTypeBuilder<Pedido> builder)
     {
         builder.ToTable("Pedidos");
-        builder.Property(i => i.Status).HasDefaultValue(0);
+        builder.Property(i => i.Status).HasDefaultValue(Status.Pendiente);
         builder.HasOne(r => r.Customer)
             .WithMany(ur => ur.Pedidos)
             .HasForeignKey(ur => ur.CustomerId);
