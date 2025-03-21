@@ -14,7 +14,7 @@ namespace payphone.Controllers
 
         // GET api/<CustomerController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> Get(int id)
+        public async Task<ActionResult<GetCustomerDto>> Get(int id)
         {
             var result = await customer.GetCustomerById(id);
             return Ok(result);
@@ -22,7 +22,7 @@ namespace payphone.Controllers
 
         // POST api/<CustomerController>
         [HttpPost]
-        public async Task<ActionResult<Customer>> Post([FromBody] CustomerDto newCustomer)
+        public async Task<ActionResult<GetCustomerDto>> Post([FromBody] CustomerDto newCustomer)
         {
            
          var result =  await customer.CreateCustomer(newCustomer);

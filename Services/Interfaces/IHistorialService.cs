@@ -10,7 +10,7 @@ namespace Services.Interfaces
 {
     public interface IHistorialService
     {
-        Task<EstadosHistorial> CreateHistorial(HistorialDto historial);
-        Task<List<EstadosHistorial>> GetHistorialByPedidoId(int id);
+        Task<GetHistorialsDto> CreateHistorial(HistorialDto historial);
+        Task<List<GetHistorialsDto>> GetHistorialByPedidoId(int id);
     }
 }

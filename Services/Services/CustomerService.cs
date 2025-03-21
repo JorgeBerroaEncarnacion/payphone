@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Castle.Core.Resource;
+using Data;
 using DTO.Dto;
 using Model.Models;
 using Services.Interfaces;
@@ -12,19 +13,25 @@ namespace Services.Services;
 
 public class CustomerService(AppDBContext context) : ICustomerService
 {
-    public async Task<Customer> CreateCustomer(CustomerDto customer)
+    public async Task<GetCustomerDto> CreateCustomer(CustomerDto customer)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(customer.Name);
         var newCustomer = new Customer()
         {
             Name = customer.Name
         };
+        
         await context.AddAsync(newCustomer);
         await context.SaveChangesAsync();
-        return newCustomer;
+        var newCustomerDto = new GetCustomerDto()
+        {
+            Id = newCustomer.Id,
+            Name = customer.Name
+        };
+        return newCustomerDto;
     }
 
-    public async Task<Customer> GetCustomerById(int id)
+    public async Task<GetCustomerDto> GetCustomerById(int id)
     {
         ArgumentNullException.ThrowIfNull(id);
 
@@ -33,7 +40,12 @@ public class CustomerService(AppDBContext context) : ICustomerService
         {
             throw new ArgumentException("Customer does not exist");
         }
-        return myCustomer;
+        var myCustomerDto = new GetCustomerDto()
+        {
+            Id = myCustomer.Id,
+            Name = myCustomer.Name
+        };
+        return myCustomerDto;
         
     }
 

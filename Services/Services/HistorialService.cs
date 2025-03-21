@@ -1,5 +1,6 @@
 ﻿using Data;
 using DTO.Dto;
+using Microsoft.EntityFrameworkCore;
 using Model.Models;
 using Services.Interfaces;
 using System;
@@ -12,9 +13,9 @@ namespace Services.Services
 {
     public class HistorialService(AppDBContext context, IPedidoService pedido) : IHistorialService
     {
-        public async Task<EstadosHistorial> CreateHistorial(HistorialDto historial)
+        public async Task<GetHistorialsDto> CreateHistorial(HistorialDto historial)
         {
-            var myPedido = await pedido.GetPedidoById(historial.OrderId);
+            var myPedido = await context.Pedidos.FindAsync(historial.OrderId);
             if (myPedido == null)
             {
                 throw new ArgumentException("Pedido does not exist");
@@ -37,21 +38,41 @@ namespace Services.Services
                 ChangeAt = DateTime.Now
             };
 
+
+
             await context.AddAsync(newHistorial);
              context.Update(myPedido);
             await context.SaveChangesAsync();
-            return newHistorial;
+            var newHistorialDto = new GetHistorialsDto()
+            {
+                Id = newHistorial.OrderId,
+                OrderId = historial.OrderId,
+                PreviousStatus = prevStatus,
+                NewStatus = historial.NewStatus,
+                ChangeAt = DateTime.Now
+            };
+            return newHistorialDto;
 
         }
 
-        public async Task<List<EstadosHistorial>> GetHistorialByPedidoId(int id)
+        public async Task<List<GetHistorialsDto>> GetHistorialByPedidoId(int id)
         {
-            var myPedido = await context.FindAsync<Pedido>(id);
-            if (myPedido == null)
-            {
+            var exists = await context.Pedidos.AnyAsync(p => p.Id == id);
+            if (!exists)
                 throw new ArgumentException("Pedido does not exist");
-            }
-            return myPedido.EstadosHistorials.ToList();
+
+            return await context.EstadosHistoriales
+                .Where(h => h.OrderId == id)
+                .OrderBy(h => h.ChangeAt)
+                .Select(h => new GetHistorialsDto
+                {
+                    Id = h.Id,
+                    OrderId = h.OrderId,
+                    PreviousStatus = h.PreviousStatus,
+                    NewStatus = h.NewStatus,
+                    ChangeAt = h.ChangeAt
+                })
+                .ToListAsync();
         }
 
         public static bool IsNextStatusValid(Status current, Status newStatus)

@@ -10,9 +10,9 @@ namespace Services.Interfaces
 {
     public interface IPedidoService
     {
-        Task<Pedido> CreatePedido(PedidoDTO pedido);
-        Task<Pedido> GetPedidoById(int id);
+        Task<GetPedidoDto> CreatePedido(PedidoDTO pedido);
+        Task<GetPedidoDto> GetPedidoById(int id);
         Task DeletePedidoById(int id);
-        Task<Pedido> UpdatePedido(UpdatePedidoDto pedido);
+        Task<GetPedidoDto> UpdatePedido(UpdatePedidoDto pedido);
     }
 }

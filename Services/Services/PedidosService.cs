@@ -13,7 +13,7 @@ namespace Services.Services
 {
     public class PedidosService(AppDBContext context, ICustomerService customer) : IPedidoService
     {
-        public async Task<Pedido> CreatePedido(PedidoDTO pedido)
+        public async Task<GetPedidoDto> CreatePedido(PedidoDTO pedido)
         {
             var myCustomer = await customer.GetCustomerById(pedido.CustomerId);
             if (myCustomer == null)
@@ -26,11 +26,23 @@ namespace Services.Services
             {
                 CustomerId = pedido.CustomerId,
                 TotalAmount = pedido.TotalAmount,
-                Status = Status.Pendiente
+                Status = Status.Pendiente,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
             };
+           
             await context.AddAsync(newPedido);
             await context.SaveChangesAsync();
-            return newPedido;
+            var newPedidoDto = new GetPedidoDto()
+            {
+                Id =   newPedido.Id,
+                CustomerId = pedido.CustomerId,
+                TotalAmount = pedido.TotalAmount,
+                Status = Status.Pendiente,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+            };
+            return newPedidoDto;
         }
 
         public async Task DeletePedidoById(int id)
@@ -40,20 +52,32 @@ namespace Services.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task<Pedido> GetPedidoById(int id)
+        public async Task<GetPedidoDto> GetPedidoById(int id)
         {
             var myPedido = await context.FindAsync<Pedido>(id);
             if (myPedido == null)
             {
                 throw new ArgumentException("Pedido does not exist");
             }
-            return myPedido;
+            var myPedidoDto = new GetPedidoDto()
+            {
+                Id = myPedido.Id,
+                CustomerId = myPedido.CustomerId,
+                TotalAmount = myPedido.TotalAmount,
+                Status = myPedido.Status,
+                CreatedAt = myPedido.CreatedAt,
+                UpdatedAt = myPedido.UpdatedAt,
+            };
+            return myPedidoDto;
         }
 
-        public async Task<Pedido> UpdatePedido(UpdatePedidoDto pedido)
+        public async Task<GetPedidoDto> UpdatePedido(UpdatePedidoDto pedido)
         {
-            var myPedido = await GetPedidoById(pedido.Id);
-           
+            var myPedido = await context.FindAsync<Pedido>(pedido.Id);
+            if (myPedido == null)
+            {
+                throw new ArgumentException("Pedido does not exist");
+            }
             ArgumentNullException.ThrowIfNull(pedido.TotalAmount);
 
             myPedido.TotalAmount = pedido.TotalAmount;
@@ -61,7 +85,16 @@ namespace Services.Services
             myPedido.UpdatedAt = DateTime.UtcNow;
             context.Update(myPedido);
             await context.SaveChangesAsync();
-            return myPedido;
+            var myPedidoDto = new GetPedidoDto()
+            {
+                Id = myPedido.Id,
+                CustomerId = myPedido.CustomerId,
+                TotalAmount = myPedido.TotalAmount,
+                Status = myPedido.Status,
+                CreatedAt = myPedido.CreatedAt,
+                UpdatedAt = myPedido.UpdatedAt,
+            };
+            return myPedidoDto;
         }
 
        

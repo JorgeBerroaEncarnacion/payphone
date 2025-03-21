@@ -14,7 +14,7 @@ namespace payphone.Controllers
       
         // GET api/<HistorialController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<EstadosHistorial>>> Get(int id)
+        public async Task<ActionResult<List<GetHistorialsDto>>> Get(int id)
         {
             var result = await historial.GetHistorialByPedidoId(id);
             return Ok(result);
@@ -22,7 +22,7 @@ namespace payphone.Controllers
 
         // POST api/<HistorialController>
         [HttpPost]
-        public async Task<ActionResult<EstadosHistorial>> Post([FromBody] HistorialDto newHistorial)
+        public async Task<ActionResult<GetHistorialsDto>> Post([FromBody] HistorialDto newHistorial)
         {
             var result = await historial.CreateHistorial(newHistorial);
             return Ok(result);

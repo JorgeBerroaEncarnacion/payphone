@@ -14,7 +14,7 @@ namespace payphone.Controllers
 
         // GET api/<PedidosController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Pedido>> Get(int id)
+        public async Task<ActionResult<GetPedidoDto>> Get(int id)
         {
             var result = await pedido.GetPedidoById(id);
 
@@ -23,7 +23,7 @@ namespace payphone.Controllers
 
         // POST api/<PedidosController>
         [HttpPost]
-        public async Task<ActionResult<Pedido>> Post([FromBody] PedidoDTO newPedido)
+        public async Task<ActionResult<GetPedidoDto>> Post([FromBody] PedidoDTO newPedido)
         {
             var result = await pedido.CreatePedido(newPedido);
             return Ok(result);
@@ -31,7 +31,7 @@ namespace payphone.Controllers
 
         // PUT api/<PedidosController>/5
         [HttpPut]
-        public async Task<ActionResult<Pedido>> Put([FromBody] UpdatePedidoDto updatePedido)
+        public async Task<ActionResult<GetPedidoDto>> Put([FromBody] UpdatePedidoDto updatePedido)
         {
             var result = await pedido.UpdatePedido(updatePedido);
             return Ok(result);

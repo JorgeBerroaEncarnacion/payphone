@@ -9,6 +9,10 @@ namespace DTO.Dto
 {
     public class GetHistorialsDto
     {
-        public  List<EstadosHistorial> EstadosHistorials { get; set; }
+        public int Id { get; set; }
+        public int OrderId { get; set; }
+        public Status PreviousStatus { get; set; }
+        public Status NewStatus { get; set; }
+        public DateTime ChangeAt { get; set; }
     }
 }

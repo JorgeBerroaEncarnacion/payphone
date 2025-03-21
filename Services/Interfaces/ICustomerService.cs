@@ -10,6 +10,6 @@ namespace Services.Interfaces;
 
 public interface ICustomerService
 {
-    Task<Customer> CreateCustomer(CustomerDto customer);
-    Task<Customer> GetCustomerById(int id);
+    Task<GetCustomerDto> CreateCustomer(CustomerDto customer);
+    Task<GetCustomerDto> GetCustomerById(int id);
 }
