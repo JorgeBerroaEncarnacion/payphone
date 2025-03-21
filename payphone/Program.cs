@@ -19,6 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCustomDbContext<AppDBContext>(builder.Configuration);
 builder.Services.AddScoped<ICustomerService,CustomerService>();
 builder.Services.AddScoped<IPedidoService,PedidosService>();
+builder.Services.AddScoped<IHistorialService,HistorialService>();
 
 var app = builder.Build();
 

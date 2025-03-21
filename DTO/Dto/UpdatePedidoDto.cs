@@ -13,6 +13,4 @@ public class UpdatePedidoDto
     public int Id { get; set; }
     [Range(1, int.MaxValue)]
     public int TotalAmount { get; set; } = 1;
-
-    public Status Status { get; set; }
 }

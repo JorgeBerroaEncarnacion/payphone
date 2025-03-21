@@ -22,3 +22,17 @@ public class PedidoConfiguration : IEntityTypeConfiguration<Pedido>
         
     }
 }
+
+
+public class HistorialConfiguration : IEntityTypeConfiguration<EstadosHistorial>
+{
+    public void Configure(EntityTypeBuilder<EstadosHistorial> builder)
+    {
+        builder.ToTable("estadoshistoriales");
+        builder.HasOne(r => r.Pedido)
+            .WithMany(ur => ur.EstadosHistorials)
+            .HasForeignKey(ur => ur.OrderId);
+
+
+    }
+}

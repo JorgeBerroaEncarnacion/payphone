@@ -57,26 +57,13 @@ namespace Services.Services
             ArgumentNullException.ThrowIfNull(pedido.TotalAmount);
 
             myPedido.TotalAmount = pedido.TotalAmount;
-            if (IsNextStatusValid(myPedido.Status, pedido.Status))
-            {
-                myPedido.Status = pedido.Status;
-            }
-            else
-            {
-                throw new ArgumentException("Invalid status transition.");
-            }
+            
             myPedido.UpdatedAt = DateTime.UtcNow;
             context.Update(myPedido);
             await context.SaveChangesAsync();
             return myPedido;
         }
 
-        public static bool IsNextStatusValid(Status current, Status newStatus)
-        {
-            if (newStatus == Status.Cancelado || current == newStatus)
-                return true;
-
-            return (int)newStatus == (int)current + 1;
-        }
+       
     }
 }
