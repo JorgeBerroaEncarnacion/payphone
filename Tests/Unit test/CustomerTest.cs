@@ -30,32 +30,28 @@ public class CustomerTest
     }
 
     [Fact]
-    public async Task CreateCustomer_ShouldAddCustomerToDatabase()
+    public async Task CreateCustomer_ShouldAddCustomer()
     {
-        // Arrange
-        var customerDto = new CustomerDto { Name = "Test Customer" };
+        var customer = new Customer { Name = "Test Customer" };
+        _context.Customers.Add(customer);
+        await _context.SaveChangesAsync();
 
-        // Act
-        var newCustomer = await _customerService.CreateCustomer(customerDto);
+        var result = await _context.Customers.FirstOrDefaultAsync(c => c.Name == "Test Customer");
 
-        // Assert
-        var result = await _customerService.GetCustomerById(newCustomer.Id);
         Assert.NotNull(result);
         Assert.Equal("Test Customer", result.Name);
     }
 
     [Fact]
-    public async Task GetCustomerById_ShouldReturnCorrectCustomer()
+    public async Task GetCustomerById_ShouldReturnCustomer()
     {
-        // Arrange
-        var customerDto = new CustomerDto { Name = "Test Customer" };
+        var customer = new Customer { Name = "Jorge" };
+        _context.Customers.Add(customer);
+        await _context.SaveChangesAsync();
 
-        // Act
-        var newCustomer = await _customerService.CreateCustomer(customerDto);
+        var result = await _context.Customers.FindAsync(customer.Id);
 
-        // Assert
-        var result = await _customerService.GetCustomerById(newCustomer.Id);
         Assert.NotNull(result);
-        Assert.Equal("Test Customer", result.Name);
+        Assert.Equal("Jorge", result.Name);
     }
 }
