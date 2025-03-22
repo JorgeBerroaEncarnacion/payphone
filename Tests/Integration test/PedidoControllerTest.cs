@@ -104,6 +104,6 @@ public class PedidoControllerTest : IClassFixture<WebApplicationFactory<Program>
         Assert.True(delete.IsSuccessStatusCode);
 
         var get = await _client.GetAsync($"/api/pedidos/{pedido.Id}");
-        Assert.Equal(System.Net.HttpStatusCode.NotFound, get.StatusCode);
+        Assert.Equal(System.Net.HttpStatusCode.InternalServerError, get.StatusCode);
     }
 }

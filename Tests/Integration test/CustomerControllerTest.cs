@@ -19,7 +19,7 @@ public class CustomerControllerTest : IClassFixture<WebApplicationFactory<Progra
 
     public CustomerControllerTest(WebApplicationFactory<Program> factory)
     {
-        _client = factory.WithWebHostBuilder(builder =>{}).CreateClient();
+        _client = factory.CreateClient();
     }
 
     [Fact]
