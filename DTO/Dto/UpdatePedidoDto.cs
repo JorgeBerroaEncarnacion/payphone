@@ -8,13 +8,9 @@ using System.Threading.Tasks;
 
 namespace DTO.Dto;
 
-public class PedidoDTO
+public class UpdatePedidoDto
 {
-
-    public int CustomerId { get; set; }
-
+    public int Id { get; set; }
     [Range(1, int.MaxValue)]
     public int TotalAmount { get; set; } = 1;
-
 }
-
