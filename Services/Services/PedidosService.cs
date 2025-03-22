@@ -47,7 +47,11 @@ namespace Services.Services
 
         public async Task DeletePedidoById(int id)
         {
-            var myPedido = await GetPedidoById(id);
+            var myPedido = await context.FindAsync<Pedido>(id);
+            if (myPedido == null)
+            {
+                throw new ArgumentException("Pedido does not exist");
+            }
             context.Remove(myPedido);
             await context.SaveChangesAsync();
         }
